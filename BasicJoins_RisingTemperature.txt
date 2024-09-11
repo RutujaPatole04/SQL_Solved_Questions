@@ -1,0 +1,68 @@
+Table: Weather
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| id            | int     |
+| recordDate    | date    |
+| temperature   | int     |
++---------------+---------+
+id is the column with unique values for this table.
+There are no different rows with the same recordDate.
+This table contains information about the temperature on a certain day.
+ 
+
+Write a solution to find all dates' id with higher temperatures compared to its previous dates (yesterday).
+
+Return the result table in any order.
+
+The result format is in the following example.
+
+ 
+
+Example 1:
+
+Input: 
+Weather table:
++----+------------+-------------+
+| id | recordDate | temperature |
++----+------------+-------------+
+| 1  | 2015-01-01 | 10          |
+| 2  | 2015-01-02 | 25          |
+| 3  | 2015-01-03 | 20          |
+| 4  | 2015-01-04 | 30          |
++----+------------+-------------+
+Output: 
++----+
+| id |
++----+
+| 2  |
+| 4  |
++----+
+Explanation: 
+In 2015-01-02, the temperature was higher than the previous day (10 -> 25).
+In 2015-01-04, the temperature was higher than the previous day (20 -> 30).
+
+
+-----------------------------------------------------------------------------------Solution-----------------------------------------------------
+SELECT w2.id
+FROM Weather w1
+join Weather w2
+ON DATEDIFF (w1.recordDate ,w2.recordDate ) = -1
+AND w2.temperature>w1.temperature    
+
+
+-------------------------------------------------------------------------------------------
+Breaking Down the Expression:
+DATEDIFF(date1, date2): This function calculates the difference between date1 and date2 in days.
+If the result is positive, date1 is after date2.
+If the result is negative, date1 is before date2.
+= -1: This means that the difference between w1.recordDate and w2.recordDate is exactly -1 day, implying that w1.recordDate is one day before w2.recordDate.
+Example Scenario:
+Suppose:
+
+w1.recordDate = '2024-08-26'
+w2.recordDate = '2024-08-27'
+Then:
+
+DATEDIFF(w1.recordDate, w2.recordDate) = -1 because '2024-08-26' is one day before '2024-08-27'.
